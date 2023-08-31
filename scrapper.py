@@ -8,7 +8,8 @@ def yt_download(ver:str):
     if version_search(file_search('yt'),ver) == True:
         return None
     mod_ver = ver.replace('.','-')
-    link = f"https://www.apkmirror.com/apk/google-inc/youtube/youtube-{mod_ver}-release/youtube-{mod_ver}-3-android-apk-download/"
+    link = f"https://www.apkmirror.com/apk/google-inc/youtube/youtube-{mod_ver}-release/youtube-{mod_ver}-android-apk-download/"
+    print(link)
     headers = {'User-Agent':'Mozilla/4.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.5845.114 Mobile Safari/537.36'}
     req = Request(url=link,data=None,headers=headers)
     print(f"{'#'*23}\n['YouTube APK {ver.replace('-','.')}]\n{'#'*24}")

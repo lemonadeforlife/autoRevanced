@@ -44,12 +44,13 @@ try:
         print(list_version)
     elif args.di:
         check_folder(True,True)
-        if update() == False:
+        if update() == True:
             print('You have latest YouTube Revanced')
         else:
             print("Your have old version\nDo you want to download & install latest resources?[y/n]")
             decide = input('>>')
             if 'y' in decide.lower():
+                print(os.getcwd())
                 build()
             else:
                 sys.exit(0)

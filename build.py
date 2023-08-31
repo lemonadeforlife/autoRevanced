@@ -8,16 +8,14 @@ import sys
 
 
 def initialize():
-    home = os.environ['HOME']
-    os.chdir(f'{home}/Code/pthon/autoRevanced')
-    if os.path.isfile('version.js') == False:
+    if check_folder(False,True) == False:
+        print("Some of the components are missing\nPlease run '--download-install' install command")
+        sys.exit(0)
+    if os.path.isfile('../version.json') == False:
         print("Couldn't find the file version.js")
         sys.exit(0)
-    with open('version.json', 'r') as f:
+    with open('../version.json', 'r') as f:
         c_version = json.load(f)
-    if check_folder(False,True) == False:
-            print("Some of the components are missing\nPlease run '--download-install' install command")
-            sys.exit(0)
     cli = version_search(file_search('cli'),c_version['cli'])
     patch = version_search(file_search('patches'),c_version['patches'])
     integration = version_search(file_search('integrations'),c_version['integrations'])
@@ -37,17 +35,20 @@ def initialize():
 
 
 def update():
-    with open('version.json', 'r') as f:
-        c_version = json.load(f)
     if os.path.isfile('version.json') == False:
         return False
-    elif yt_version() == c_version['youtube']:
+    else:
+        with open('version.json', 'r') as f:
+            c_version = json.load(f)
+    if os.path.isdir('revanced') == False:
         return False
-    elif download('cli', cv=True) == c_version['cli']:
+    elif yt_version() != c_version['youtube'] or version_search(file_search('yt'),yt_version()) == None:
         return False
-    elif download('integrations', cv=True) == c_version['integrations']:
+    elif download('cli', cv=True) != c_version['cli'] or version_search(file_search('cli'),yt_version()) == None:
         return False
-    elif download('patches', cv=True) == c_version['patches']:
+    elif download('integrations', cv=True) != c_version['integrations'] or version_search(file_search('integrations'),yt_version()) == None:
+        return False
+    elif download('patches', cv=True) != c_version['patches'] or version_search(file_search('patches'),yt_version()) == None:
         return False
     else:
         return True
@@ -55,15 +56,21 @@ def update():
 
 
 def build():
-    if check_folder(False,True) == False:
-        print("Some of the components are missing\nPlease run '--download-install' install command")
-        sys.exit(0)
-    if os.path.isfile('version.js') == False:
-        print("Couldn't find the file version.js")
-        sys.exit(0)
-    with open('version.json', 'r') as f:
-        c_version = json.load(f)
-    check_folder(True,True)
+    if os.path.isfile('../version.js') == False:
+        with open('../version.json', 'w') as f:
+            temp_version = {
+                'youtube': yt_version(),
+                'cli': download('cli',cv=True),
+                'patches': download('patches',cv=True),
+                'integrations': download('integrations',cv=True)
+            }
+            f.write(json.dumps(temp_version))
+        with open('../version.json', 'r') as f:
+            with open('../version.json', 'r') as f:
+                c_version = json.load(f)    
+    else:
+        with open('version.json', 'r') as f:
+            c_version = json.load(f)
     yt_download(yt_version())  # type: ignore
     repo = ['cli', 'patches','integrations']
     for x in repo:

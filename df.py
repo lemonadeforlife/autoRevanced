@@ -5,12 +5,12 @@ import os
 def check_folder(create=False,chdir=False):
     if os.path.basename(os.getcwd()) != 'revanced':
         if os.path.isdir('revanced') == False:
-            if create != False:
+            if create == True:
                 os.mkdir('revanced')
                 os.chdir(f'{os.getcwd()}/revanced')
             return False
         else:
-            if chdir != False:
+            if chdir == True:
                 os.chdir(f'{os.getcwd()}/revanced')
             return True
     else:
@@ -73,27 +73,28 @@ def version_search(file, version):
 
 
 def install(cli='cli*',patches='patches*',integrations='integrations*',yt='yt*',ver=''):
-    command = f"""java -jar {cli} \
+    command = f"""java -jar {cli} patch \
 -b {patches} \
 -m {integrations} \
--a {yt} \
--c \
--o revanced-{ver}.apk \
+-o revanced-{ver}.apk {yt} -p --options=options.json \
 --exclusive \
+-i alternative-thumbnails \
 -i always-autorepeat \
 -i client-spoof \
 -i comments \
 -i copy-video-url \
 -i custom-branding \
+-i custom-player-overlay-opacity \
 -i disable-shorts-on-startup \
 -i disable-auto-captions \
--i disable-fullscreen-panels \
 -i disable-player-popup-panels \
 -i disable-zoom-haptics \
 -i enable-debugging \
+-i enable-tablet-layout \
 -i external-downloads \
 -i hdr-auto-brightness \
 -i hide-shorts-components \
+-i hide-ads \
 -i hide-album-cards \
 -i hide-autoplay-button \
 -i hide-breaking-news-shelf \
@@ -108,29 +109,28 @@ def install(cli='cli*',patches='patches*',integrations='integrations*',yt='yt*',
 -i hide-layout-components \
 -i hide-load-more-button \
 -i hide-player-buttons \
--i hide-player-overlay \
 -i hide-seekbar \
 -i hide-timestamp \
 -i hide-video-action-buttons \
--i hide-watch-in-vr \
 -i hide-watermark \
 -i minimized-playback \
 -i navigation-buttons \
 -i old-video-quality-menu \
 -i open-links-externally \
+-i playback-speed \
+-i player-flyout-menu \
 -i premium-heading \
 -i remember-video-quality \
 -i remove-player-controls-background \
 -i return-youtube-dislike \
 -i seekbar-tapping \
--i tap-to-seek \
+-i sponsorblock \
+-i spoof-app-version \
 -i swipe-controls \
 -i theme \
--i video-ads \
+-i tablet-mini-player \
 -i vanced-microg-support \
--i sponsorblock"""
+-i video-ads \
+-i wide-searchbar"""
     os.system(command)
-
-
-
-
+    os.system(f'rm revanced-{ver}.keystore')
