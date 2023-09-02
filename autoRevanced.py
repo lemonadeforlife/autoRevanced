@@ -10,7 +10,7 @@ from df import check_folder
 
 home = os.environ['HOME']
 os.chdir(f'{home}/Code/pthon/autoRevanced')
-if os.path.isfile('version.js') == False:
+if os.path.isfile('version.json') == False:
     c_version = {
         'youtube': '',
         'cli': '',
@@ -36,10 +36,10 @@ try:
     elif args.cl:
         list_version = f"""
     <*> Latest: [Name] [latest version] | [current version]\n
-            Revanced YouTube        --> {yt_version()}   |   {c_version['youtube']}
-            Revanced CLI            --> {download('cli',cv=True)}    |   {c_version['cli']}
-            Revanced Integrations   --> {download('integrations',cv=True)}   |   {c_version['integrations']}
-            Revanced Patches        --> {download('patches',cv=True)}   |   {c_version['patches']}
+            Revanced YouTube        --> {yt_version()}   -->   {c_version['youtube']}
+            Revanced CLI            --> {download('cli',cv=True)}    -->   {c_version['cli']}
+            Revanced Integrations   --> {download('integrations',cv=True)}   -->   {c_version['integrations']}
+            Revanced Patches        --> {download('patches',cv=True)}   -->   {c_version['patches']}
     """
         print(list_version)
     elif args.di:
