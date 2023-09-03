@@ -41,11 +41,11 @@ def update():
         return False
     elif yt_version() != c_version['youtube'] or version_search(file_search('yt'),yt_version()) == None:
         return False
-    elif download('cli', cv=True) != c_version['cli'] or version_search(file_search('cli'),yt_version()) == None:
+    elif download('cli', cv=True) != c_version['cli'] or version_search(file_search('cli'),download('cli', cv=True)) == None:
         return False
-    elif download('integrations', cv=True) != c_version['integrations'] or version_search(file_search('integrations'),yt_version()) == None:
+    elif download('integrations', cv=True) != c_version['integrations'] or version_search(file_search('integrations'),download('integrations', cv=True)) == None:
         return False
-    elif download('patches', cv=True) != c_version['patches'] or version_search(file_search('patches'),yt_version()) == None:
+    elif download('patches', cv=True) != c_version['patches'] or version_search(file_search('patches'),download('patches', cv=True)) == None:
         return False
     else:
         return True
