@@ -80,7 +80,6 @@ def file_search(lwd):
     
 
 def version_search(file, version):
-    os.chdir(revancedPath)
     ver1, ver2, ver3 = version.split('.')
     exact_version = re.compile(fr'.*\v?{ver1}.?{ver2}.?{ver3}.*\.(jar|apk)')
     for x in file:
