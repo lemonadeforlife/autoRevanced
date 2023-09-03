@@ -34,6 +34,7 @@ def check_folder(create=False,chdir=False):
 
 
 def file_search(lwd):
+    os.chdir(revancedPath)
     # lwd = cli, integrations, patches, yt
     cli_list = []
     int_list = []
@@ -79,6 +80,7 @@ def file_search(lwd):
     
 
 def version_search(file, version):
+    os.chdir(revancedPath)
     ver1, ver2, ver3 = version.split('.')
     exact_version = re.compile(fr'.*\v?{ver1}.?{ver2}.?{ver3}.*\.(jar|apk)')
     for x in file:

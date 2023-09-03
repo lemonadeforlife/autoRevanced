@@ -1,6 +1,6 @@
 import os
 import json
-from df import c_version, check_folder,version_search,file_search, install, versionFilePath
+from df import c_version, check_folder,version_search,file_search, install, versionFilePath, revancedPath
 from scrapper import yt_download, yt_version, download
 import sys
 
@@ -36,8 +36,8 @@ def update():
         return False
     else:
         with open(versionFilePath, 'r') as f:
-            c_version = json.load(f)
-    if os.path.isdir('revanced') == False:
+            c_version = json.loads(f.read())
+    if os.path.isdir(revancedPath) == False:
         return False
     elif yt_version() != c_version['youtube'] or version_search(file_search('yt'),yt_version()) == None:
         return False
