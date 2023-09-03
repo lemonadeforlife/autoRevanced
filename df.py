@@ -19,6 +19,8 @@ else:
     }
 
 def check_folder(create=False,chdir=False):
+    if os.path.isdir(versionPath) == False and create == True:
+        os.mkdir(versionPath)
     if os.path.isdir(revancedPath) == False:
         if create == True:
             os.mkdir(revancedPath)
