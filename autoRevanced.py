@@ -4,22 +4,10 @@ import os
 import sys
 from scrapper import download, yt_version
 import argparse
-import json
 from build import build, initialize, update
-from df import check_folder
+from df import check_folder, c_version
 
-home = os.environ['HOME']
-os.chdir(f'{home}/Code/pthon/autoRevanced')
-if os.path.isfile('version.json') == False:
-    c_version = {
-        'youtube': '',
-        'cli': '',
-        'integrations': '',
-        'patches': ''
-    }
-else:
-    with open('version.json', 'r') as f:
-        c_version = json.load(f)
+
 parser = argparse.ArgumentParser(
      prog="AutoRevanced",
      description="A simple automation tool for downloading and installing latest revanced patches for youtube"
@@ -68,7 +56,6 @@ try:
             print("Your have old version\nDo you want to download & install latest resources?[y/n]")
             decide = input('>>')
             if 'y' in decide.lower():
-                print(os.getcwd())
                 build()
             else:
                 sys.exit(0)
