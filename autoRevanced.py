@@ -5,13 +5,15 @@ import sys
 from scrapper import download, yt_version
 import argparse
 from build import build, initialize, update
-from df import check_folder, c_version
+from df import check_folder, c_version, options
 
 
 parser = argparse.ArgumentParser(
      prog="AutoRevanced",
      description="A simple automation tool for downloading and installing latest revanced patches for youtube"
 )
+parser.add_argument('-dt', '--dark-theme',nargs='?', action='store',type=str, default='@android:color/black', help='set custom dark theme for youtube app')
+parser.add_argument('-lt', '--light-theme',nargs='?', action='store',type=str, default='@android:color/white', help='set custom light theme for youtube app')
 parser.add_argument('-cy', '--check-youtube',dest='cy', action='store_true', help='checks the latest revanced supported youtube version')
 parser.add_argument('-cc', '--check-cli', action='store_true', help='checks the latest revanced cli version')
 parser.add_argument('-ci', '--check-integrations', action='store_true', help='checks the latest revanced integrations version')
@@ -56,10 +58,12 @@ try:
             print("Your have old version\nDo you want to download & install latest resources?[y/n]")
             decide = input('>>')
             if 'y' in decide.lower():
+                options(args.dark_theme,args.light_theme)
                 build()
             else:
                 sys.exit(0)
     elif args.install:
+        options(args.dark_theme,args.light_theme)
         initialize()
 
 except KeyboardInterrupt:
