@@ -89,6 +89,16 @@ def version_search(file, version):
 
 
 
+def options(darkTheme,lightTheme):
+    options = [{'patchName': 'Change package name', 'options': [{'key': 'packageName', 'value': None}]}, 
+               {'patchName': 'Custom branding', 'options': [{'key': 'appName', 'value': 'YouTube Revanced'}, 
+                                                            {'key': 'iconPath', 'value': 'icon.ico'}]}, 
+                                                            {'patchName': 'Theme', 'options': [{'key': 'darkThemeBackgroundColor', 'value': darkTheme}, {'key': 'lightThemeBackgroundColor', 'value': lightTheme}]}]
+    with open(f'{revancedPath}/options.json', 'w') as f:
+        f.write(json.dumps(options,indent=1))
+
+
+
 def install(cli='cli*',patches='patches*',integrations='integrations*',yt='yt*',ver=''):
     command = f"""java -jar {cli} patch \
 -b {patches} \
