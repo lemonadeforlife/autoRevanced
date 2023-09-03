@@ -8,7 +8,9 @@ Download and install latest revanced patches for **YouTube**.
 - Install requirements.txt for script dependency
 <br>
 <br>
-## Usage
+
+## Usage:
+
 ```terminal
 usage: AutoRevanced [-h] [-dt [DARK_THEME]] [-lt [LIGHT_THEME]] [-cy] [-cc]
                     [-ci] [-cp] [-cl] [-di] [-i]
