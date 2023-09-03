@@ -29,6 +29,11 @@ def yt_download(ver:str):
     print('\nSucessfully Collected Download Link\n\nStarted Downloading...')
     os.system(f'wget --user-agent="Mozilla" -c -q --show-progress -O yt_{ver}.apk "{download_link}"')
     print('Successfully Download YouTube APK')
+    if os.path.isfile('icon.ico') == False:
+        print('downloading youtube icon')
+        iconLink = "https://www.iconfinder.com/icons/4102578/download/ico/4096"
+        os.system(f'wget --user-agent="Mozilla" -c -q --show-progress -O icon.ico "{iconLink}"')
+    
 
 
 
