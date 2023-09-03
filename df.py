@@ -1,19 +1,33 @@
 import re
 import os
+import json
 
+home = os.environ['HOME']
+downloadPath = f'{home}/Downloads'
+revancedPath = f'{downloadPath}/revanced'
+versionPath = f'{home}/.config/autoRevanced'
+versionFilePath = f'{versionPath}/version.json'
+if os.path.isfile(versionFilePath) == True:
+    with open(f'{versionPath}/version.json', 'r') as f:
+        c_version = f.read()
+else:
+    c_version = {
+        'youtube': '',
+        'cli': '',
+        'integrations': '',
+        'patches': ''
+    }
 
 def check_folder(create=False,chdir=False):
-    if os.path.basename(os.getcwd()) != 'revanced':
-        if os.path.isdir('revanced') == False:
-            if create == True:
-                os.mkdir('revanced')
-                os.chdir(f'{os.getcwd()}/revanced')
-            return False
-        else:
-            if chdir == True:
-                os.chdir(f'{os.getcwd()}/revanced')
-            return True
+    if os.path.isdir(revancedPath) == False:
+        if create == True:
+            os.mkdir(revancedPath)
+        if chdir==True:
+            os.chdir(revancedPath)
+        return False
     else:
+        if chdir == True:
+            os.chdir(revancedPath)
         return True
 
 
