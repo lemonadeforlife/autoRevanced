@@ -8,8 +8,8 @@ revancedPath = f'{downloadPath}/revanced'
 versionPath = f'{home}/.config/autoRevanced'
 versionFilePath = f'{versionPath}/version.json'
 if os.path.isfile(versionFilePath) == True:
-    with open(f'{versionPath}/version.json', 'r') as f:
-        c_version = f.read()
+    with open(versionFilePath, 'r') as f:
+        c_version = json.loads(f.read())
 else:
     c_version = {
         'youtube': '',
