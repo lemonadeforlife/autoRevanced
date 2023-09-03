@@ -1,7 +1,6 @@
-from genericpath import isfile
 import os
 import json
-from df import check_folder, install, file_search, version_search
+from df import c_version, check_folder,version_search,file_search, install, versionFilePath
 from scrapper import yt_download, yt_version, download
 import sys
 
@@ -11,11 +10,9 @@ def initialize():
     if check_folder(False,True) == False:
         print("Some of the components are missing\nPlease run '--download-install' install command")
         sys.exit(0)
-    if os.path.isfile('../version.json') == False:
+    if os.path.isfile(versionFilePath) == False:
         print("Couldn't find the file version.js")
         sys.exit(0)
-    with open('../version.json', 'r') as f:
-        c_version = json.load(f)
     cli = version_search(file_search('cli'),c_version['cli'])
     patch = version_search(file_search('patches'),c_version['patches'])
     integration = version_search(file_search('integrations'),c_version['integrations'])
@@ -35,10 +32,10 @@ def initialize():
 
 
 def update():
-    if os.path.isfile('version.json') == False:
+    if os.path.isfile(versionFilePath) == False:
         return False
     else:
-        with open('version.json', 'r') as f:
+        with open(versionFilePath, 'r') as f:
             c_version = json.load(f)
     if os.path.isdir('revanced') == False:
         return False
@@ -56,8 +53,8 @@ def update():
 
 
 def build():
-    if os.path.isfile('../version.js') == False:
-        with open('../version.json', 'w') as f:
+    if os.path.isfile(versionFilePath) == False:
+        with open(versionFilePath, 'w') as f:
             temp_version = {
                 'youtube': yt_version(),
                 'cli': download('cli',cv=True),
@@ -65,11 +62,11 @@ def build():
                 'integrations': download('integrations',cv=True)
             }
             f.write(json.dumps(temp_version))
-        with open('../version.json', 'r') as f:
-            with open('../version.json', 'r') as f:
+        with open(versionFilePath, 'r') as f:
+            with open(versionFilePath, 'r') as f:
                 c_version = json.load(f)    
     else:
-        with open('version.json', 'r') as f:
+        with open(versionFilePath, 'r') as f:
             c_version = json.load(f)
     yt_download(yt_version())  # type: ignore
     repo = ['cli', 'patches','integrations']
@@ -79,6 +76,6 @@ def build():
         else:
             c_version[x] = download(x,c_version[x])
     c_version['youtube'] = yt_version()
-    with open('../version.json', 'w') as f:
+    with open(versionFilePath, 'w') as f:
         f.write(json.dumps(c_version))
     initialize()
