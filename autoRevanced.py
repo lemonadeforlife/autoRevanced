@@ -21,15 +21,13 @@ parser.add_argument('-cp', '--check-patches', action='store_true', help='checks 
 parser.add_argument('-cl', '--check-all', dest='cl', action='store_true', help='list all the components latest version')
 parser.add_argument('-di', '--download-install', dest='di', action='store_true', help='Download & Install Latest YouTube Revanced')
 parser.add_argument('-i', '--install', action='store_true', help='Install YouTube Revanced Only')
-try:
-    args = parser.parse_args()
-except:
-    parser.print_help()
-    sys.exit(0)
+
 
 def space(x):
     z = 11 - len(x)
     return ' '*z
+
+
 
 def displayVersion(check:str='', individual:bool=True):
     s_yt = space(yt_version())
@@ -58,6 +56,10 @@ def displayVersion(check:str='', individual:bool=True):
 
 
 try:
+    args = parser.parse_args()
+    asdasd, command = parser.parse_known_args()
+    if command == []:
+        sys.exit(1)
     if args.cy:
         displayVersion('youtube')
     elif args.check_cli:
@@ -86,3 +88,6 @@ try:
 
 except KeyboardInterrupt:
     print("Operation Cancelled...")
+except:
+    parser.print_help()
+    sys.exit(0)
