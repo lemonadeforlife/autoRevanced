@@ -21,35 +21,53 @@ parser.add_argument('-cp', '--check-patches', action='store_true', help='checks 
 parser.add_argument('-cl', '--check-all', dest='cl', action='store_true', help='list all the components latest version')
 parser.add_argument('-di', '--download-install', dest='di', action='store_true', help='Download & Install Latest YouTube Revanced')
 parser.add_argument('-i', '--install', action='store_true', help='Install YouTube Revanced Only')
-args = parser.parse_args()
-
+try:
+    args = parser.parse_args()
+except:
+    parser.print_help()
+    sys.exit(0)
 
 def space(x):
     z = 11 - len(x)
     return ' '*z
 
+def displayVersion(check:str='', individual:bool=True):
+    s_yt = space(yt_version())
+    s_cli = space(download('cli', cv=True))
+    s_integrations = space(download('integrations', cv=True))
+    s_patch = space(download('patches', cv=True))
+    heading = f"{' '*4}[Name]{' '*10}|  [Latest version]  |  [Current version]"
+    check_youtube = f"Revanced YouTube        --> {yt_version()}{s_yt}   -->   {c_version['youtube']}"
+    check_cli = f"Revanced CLI            --> {download('cli',cv=True)}{s_cli}   -->   {c_version['cli']}"
+    check_integrations = f"Revanced Integrations   --> {download('integrations',cv=True)}{s_integrations}   -->   {c_version['integrations']}"
+    check_patches = f"Revanced Patches        --> {download('patches',cv=True)}{s_patch}   -->   {c_version['patches']}"
+    if individual == False:
+        print(f"{heading}\n\n{check_youtube}\n{check_cli}\n{check_integrations}\n{check_patches}")
+    else:
+        if check == 'youtube':
+            print(f"{heading}\n\n{check_youtube}")
+        elif check == 'cli':
+            print(f"{heading}\n\n{check_cli}")
+        elif check == 'integrations':
+            print(f"{heading}\n\n{check_integrations}")
+        elif check == 'patches':
+            print(f"{heading}\n\n{check_patches}")
+        else:
+            print(None)
 
-s_yt = space(yt_version())
-s_cli = space(download('cli', cv=True))
-s_integrations = space(download('integrations', cv=True))
-s_patch = space(download('patches', cv=True))
-heading = f"[Name]  |  [Latest version]  |  [Current version]"
-check_youtube = f"Revanced YouTube        --> {yt_version()}{s_yt}   -->   {c_version['youtube']}"
-check_cli = f"Revanced CLI            --> {download('cli',cv=True)}{s_cli}   -->   {c_version['cli']}"
-check_integrations = f"Revanced Integrations   --> {download('integrations',cv=True)}{s_integrations}   -->   {c_version['integrations']}"
-check_patches = f"Revanced Patches        --> {download('patches',cv=True)}{s_patch}   -->   {c_version['patches']}"
+
+
 try:
     if args.cy:
-        print(f"{heading}\n\n{check_youtube}")
+        displayVersion('youtube')
     elif args.check_cli:
-        print(f"{heading}\n\n{check_cli}")
+        displayVersion('cli')
     elif args.check_integrations:
-        print(f"{heading}\n\n{check_integrations}")
+        displayVersion('integrations')
     elif args.check_patches:
-        print(f"{heading}\n\n{check_patches}")
+        displayVersion('patches')
     elif args.cl:
-        list_version = f"{heading}\n\n{check_youtube}\n{check_cli}\n{check_integrations}\n{check_patches}"
-        print(list_version)
+        displayVersion(individual=False)
     elif args.di:
         check_folder(True,True)
         if update() == True:
