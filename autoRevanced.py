@@ -6,7 +6,7 @@ from scrapper import download, yt_version
 import argparse
 from build import build, initialize, update
 from df import check_folder, c_version, options
-
+import concurrent.futures
 
 parser = argparse.ArgumentParser(
      prog="AutoRevanced",
@@ -35,25 +35,38 @@ def space(x):
 
 
 def displayVersion(check:str='', individual:bool=True):
-    s_yt = space(yt_version())
-    s_cli = space(download('cli', cv=True))
-    s_integrations = space(download('integrations', cv=True))
-    s_patch = space(download('patches', cv=True))
     heading = f"{' '*4}[Name]{' '*10}|  [Latest version]  |  [Current version]"
-    check_youtube = f"Revanced YouTube        --> {yt_version()}{s_yt}   -->   {c_version['youtube']}"
-    check_cli = f"Revanced CLI            --> {download('cli',cv=True)}{s_cli}   -->   {c_version['cli']}"
-    check_integrations = f"Revanced Integrations   --> {download('integrations',cv=True)}{s_integrations}   -->   {c_version['integrations']}"
-    check_patches = f"Revanced Patches        --> {download('patches',cv=True)}{s_patch}   -->   {c_version['patches']}"
     if individual == False:
+        with concurrent.futures.ThreadPoolExecutor() as run:
+            youtubeVersion = run.submit(yt_version).result()
+            cliVersion = run.submit(download,'cli', '',True).result()
+            intgVersion = run.submit(download,'integrations', '',True).result()
+            patchVersion = run.submit(download,'patches', '',True).result()
+            s_yt = run.submit(space,youtubeVersion).result()
+            s_cli = run.submit(space,cliVersion).result()
+            s_int = run.submit(space,intgVersion).result()
+            s_patch = run.submit(space,patchVersion).result()
+        check_integrations = f"Revanced Integrations   --> {intgVersion}{s_int}   -->   {c_version['integrations']}"
+        check_patches = f"Revanced Patches        --> {patchVersion}{s_patch}   -->   {c_version['patches']}"
+        check_youtube = f"Revanced YouTube        --> {youtubeVersion}{s_yt}   -->   {c_version['youtube']}"
+        check_cli = f"Revanced CLI            --> {cliVersion}{s_cli}   -->   {c_version['cli']}"
         print(f"{heading}\n\n{check_youtube}\n{check_cli}\n{check_integrations}\n{check_patches}")
     else:
         if check == 'youtube':
+            s_yt = space(yt_version())
+            check_youtube = f"Revanced YouTube        --> {yt_version()}{s_yt}   -->   {c_version['youtube']}"
             print(f"{heading}\n\n{check_youtube}")
         elif check == 'cli':
+            s_cli = space(download('cli', cv=True))
+            check_cli = f"Revanced CLI            --> {download('cli',cv=True)}{s_cli}   -->   {c_version['cli']}"
             print(f"{heading}\n\n{check_cli}")
         elif check == 'integrations':
+            s_int = space(download('integrations', cv=True))
+            check_integrations = f"Revanced Integrations   --> {download('integrations',cv=True)}{s_int}   -->   {c_version['integrations']}"
             print(f"{heading}\n\n{check_integrations}")
         elif check == 'patches':
+            s_patch = space(download('patches', cv=True))
+            check_patches = f"Revanced Patches        --> {download('patches',cv=True)}{s_patch}   -->   {c_version['patches']}"
             print(f"{heading}\n\n{check_patches}")
         else:
             print(None)

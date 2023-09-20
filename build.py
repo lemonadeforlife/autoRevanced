@@ -3,7 +3,7 @@ import json
 from df import c_version, check_folder,version_search,file_search, install, versionFilePath, revancedPath
 from scrapper import yt_download, yt_version, download
 import sys
-
+import concurrent.futures
 
 
 def initialize():
@@ -68,14 +68,16 @@ def build():
     else:
         with open(versionFilePath, 'r') as f:
             c_version = json.load(f)
-    yt_download(yt_version())  # type: ignore
-    repo = ['cli', 'patches','integrations']
-    for x in repo:
-        if download(x,c_version[x]) == None:
-            pass
-        else:
-            c_version[x] = download(x,c_version[x])
-    c_version['youtube'] = yt_version()
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        youtubeVersion = executor.submit(yt_version).result()
+        executor.submit(yt_download,youtubeVersion) # type:ignore
+        repo = ['cli', 'patches','integrations']
+        for x in repo:
+            if executor.submit(download,x,c_version[x]).result() == None:
+                pass
+            else:
+                c_version[x] = executor.submit(download,x,c_version[x]).result()
+        c_version['youtube'] = youtubeVersion
     with open(versionFilePath, 'w') as f:
         f.write(json.dumps(c_version))
     initialize()
