@@ -21,11 +21,7 @@ parser.add_argument('-cp', '--check-patches', action='store_true', help='checks 
 parser.add_argument('-cl', '--check-all', dest='cl', action='store_true', help='list all the components latest version')
 parser.add_argument('-di', '--download-install', dest='di', action='store_true', help='Download & Install Latest YouTube Revanced')
 parser.add_argument('-i', '--install', action='store_true', help='Install YouTube Revanced Only')
-try:
-    args = parser.parse_args()
-except:
-    parser.print_help()
-    sys.exit(0)
+args = parser.parse_args()
 
 
 def space(x):
@@ -74,7 +70,10 @@ def displayVersion(check:str='', individual:bool=True):
 
 
 try:
-    if args.cy:
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(-1)
+    elif args.cy:
         displayVersion('youtube')
     elif args.check_cli:
         displayVersion('cli')
